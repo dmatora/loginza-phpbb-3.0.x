@@ -41,20 +41,28 @@
 				<email><![CDATA[http://www.phpbbguru.net/community/member17409.html]]></email>
 			</author>
 		</author-group>
-		<mod-version>1.0.3</mod-version>
+		<mod-version>1.0.4</mod-version>
 		<installation>
 			<level>intermediate</level>
 			<time>600</time>
-			<target-version>3.0.11</target-version>
+			<target-version>3.0.12</target-version>
 		</installation>
+		<history>
+			<entry>
+				<date>2014-11-13</date>
+				<rev-version>1.0.4</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[phpBB 3.0.12 compatibility fix]]></change>
+				</changelog>
+			</entry>
+		</history>
 	</header>
 	<action-group>
-		<sql><![CDATA[ALTER TABLE  `phpbb_users` ADD  `loginza_identity` VARCHAR( 255 ) NOT NULL COMMENT  'Идентификатор Loginza прикрепленный к учетной записи',
-ADD  `loginza_provider` VARCHAR( 255 ) NOT NULL COMMENT  'Провайдер авторизации';
-
-ALTER TABLE  `phpbb_users` ADD INDEX (  `loginza_identity` ) ;]]></sql>
-		<sql><![CDATA[ALTER TABLE `phpbb_users` CHANGE `loginza_identity` `loginza_identity` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'Идентификатор Loginza прикрепленный к учетной записи',
-CHANGE `loginza_provider` `loginza_provider` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'Провайдер авторизации']]></sql>
+		<sql><![CDATA[ALTER TABLE phpbb_users ADD loginza_identity VARCHAR(255) NOT NULL]]></sql>
+		<sql><![CDATA[ALTER TABLE phpbb_users ADD loginza_provider VARCHAR(255) NOT NULL]]></sql>
+		<sql><![CDATA[ALTER TABLE phpbb_users ADD INDEX (loginza_identity)]]></sql>
+		<sql><![CDATA[ALTER TABLE phpbb_users CHANGE `loginza_identity` `loginza_identity` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NULL]]></sql>
+		<sql><![CDATA[ALTER TABLE phpbb_users CHANGE `loginza_provider` `loginza_provider` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NULL]]></sql>
 		<copy>
 			<file from="root/includes/loginza/loginza_register.php" to="includes/loginza/loginza_register.php"/>
 			<file from="root/includes/loginza/libs/JSON.php" to="includes/loginza/libs/JSON.php"/>

@@ -142,16 +142,28 @@ class loginza_register
 		
 		// сгенерированный пароль
 		$gen_password = $LoginzaProfile->genRandomPassword();
+        $loginza_avatar = (string)$LoginzaProfile->genUserPhoto();
+        $lo_avatar = ImageCreateFromJpeg((string)$LoginzaProfile->genUserPhoto());
+        $avatar_w = imagesx($lo_avatar);
+        $avatar_h = imagesy($lo_avatar);
 		
+		$email = $LoginzaProfile->getEmail();
+		$birsday = $LoginzaProfile->getDob();
+		$icq = $LoginzaProfile->getIicq();
+		$city = $LoginzaProfile->getCity();
+		$jabber = $LoginzaProfile->getJabber();
 		$data = array(
 			'username'				=> utf8_normalize_nfc($LoginzaProfile->genNickname()),
 			'user_password'			=> phpbb_hash($gen_password),
-			'user_email'			=> strtolower($profile->email),
-			'user_birthday'			=> date('d-m-Y', strtotime($profile->dob)),
-			'user_avatar' 			=> (string)$profile->photo,
-			'user_from' 			=> (string)$profile->address->home->city,
-			'user_icq' 				=> (string)$profile->im->icq,
-			'user_jabber' 			=> (string)$profile->im->jabber,
+			'user_email'			=> strtolower($email),
+			'user_birthday'			=> date('d-m-Y', strtotime($birsday)),
+			'user_avatar'           => $loginza_avatar,
+            'user_avatar_type'      => 2,
+            'user_avatar_width'     => $avatar_w,
+            'user_avatar_height'    => $avatar_h,
+			'user_from' 			=> (string)$city,
+			'user_icq' 				=> (string)$icq,
+			'user_jabber' 			=> (string)$jabber,
 			'user_website' 			=> (string)$LoginzaProfile->genUserSite(),
 			'user_timezone'			=> (float) $timezone,
 			'user_dst'				=> $is_dst,
@@ -241,9 +253,9 @@ class loginza_register
 
 				$messenger = new messenger(false);
 
-				$messenger->template($email_template, $data['lang']);
+				$messenger->template($email_template, 'ru');
 
-				$messenger->to($data['email'], $data['username']);
+				$messenger->to($data['user_email'], $data['username']);
 
 				$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
 				$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);

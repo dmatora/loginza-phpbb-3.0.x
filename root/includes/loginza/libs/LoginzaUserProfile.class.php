@@ -46,7 +46,7 @@ class LoginzaUserProfile {
 	}
 	
 	public function genNickname () {
-		if ($this->profile->nickname) {
+		if (isset($this->profile->nickname)) {
 			return $this->profile->nickname;
 		} elseif (!empty($this->profile->email) && preg_match('/^(.+)\@/i', $this->profile->email, $nickname)) {
 			return $nickname[1];
@@ -78,7 +78,15 @@ class LoginzaUserProfile {
 		
 		return $this->profile->identity;
 	}
-	
+   public function genUserPhoto () 
+   {
+      $photo = 'http://fotovideoforum.ru/images/avatars/gallery/Fantasy/a47.jpg.pagespeed.ce.fLmEVF-u1g.jpg';
+	  if (isset($this->profile->photo)) 
+	  {
+         $photo = $this->profile->photo;
+      }
+	  return $photo;
+    }	
 	public function genDisplayName () {
 	 	if ( ($fullname = $this->genFullName()) ) {
 			return $fullname;
@@ -98,13 +106,58 @@ class LoginzaUserProfile {
 	}
 	
 	public function genFullName () {
-		if ($this->profile->name->full_name) {
+		if (isset($this->profile->name->full_name)) {
 			return $this->profile->name->full_name;
 		} elseif ( $this->profile->name->first_name || $this->profile->name->last_name ) {
 			return trim($this->profile->name->first_name.' '.$this->profile->name->last_name);
 		}
 		
 		return false;
+	}
+	public function getEmail()
+	{
+		$email = 'localhos@localhost.ru';
+		if (isset($this->profile->email))
+		{
+			$email = $this->profile->email;
+		}
+		return $email;
+	}
+	public function getDob()
+	{
+		$birsday = 'now';
+		if (isset($this->profile->dob))
+		{
+			$birsday = $this->profile->dob;
+		}
+		return $birsday;
+	}
+	public function getIicq()
+	{
+		$icq = '000';
+		if (isset($this->profile->im->icq))
+		{
+			$icq = $this->profile->im->icq;
+		}
+		return $icq;
+	}
+	public function getCity()
+	{
+		$city = 'UnknowCity';
+		if (isset($this->address->home->city))
+		{
+			$city = $this->address->home->city;
+		}
+		return $city;
+	}
+	public function getJabber()
+	{
+		$jabber = 'jabber';
+		if (isset($this->im->jabber))
+		{
+			$jabber = $this->im->jabber;
+		}
+		return $jabber;
 	}
 	/**
 	 * Генератор случайных паролей
